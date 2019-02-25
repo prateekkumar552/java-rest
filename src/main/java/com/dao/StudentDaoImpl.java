@@ -39,7 +39,7 @@ public class StudentDaoImpl implements StudentDao{
 
 	@Override
 	public List<Student> getStudentById(final int id) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubs
 		
 		List<Student> stulist=temp.execute(new HibernateCallback<List<Student>>() {
 

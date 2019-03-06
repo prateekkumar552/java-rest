@@ -10,15 +10,15 @@ public class Student {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	int rollno;
+	Integer rollno;
 	String name;
 	String city;
 	String username;
 	String password;
-	public int getRollno() {
+	public Integer getRollno() {
 		return rollno;
 	}
-	public void setRollno(int rollno) {
+	public void setRollno(Integer rollno) {
 		this.rollno = rollno;
 	}
 	public String getName() {

@@ -27,14 +27,14 @@ public class StudentService {
 		
 	}
 	
-	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
+	/*@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
 	public List<Student> getAllStudentsById(int id){
 		List<Student> list=dao.getStudentById(id);
 		if(list.size()==0) {
 			throw new DataNotFoundException("Student with"+id+"not found");
 		}
 		return list;
-	}
+	}*/
 	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
 	public boolean addStudent(Student stu) {
 		Student st=new Student();
@@ -47,22 +47,33 @@ public class StudentService {
 		
 	}
 	
-	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
+	/*@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
 	public boolean deleteStudentById(int id) {
-		/*return dao.deleteStudentById(id);*/
+		return dao.deleteStudentById(id);
 		return this.dao.deleteStudentById(id);
-	}
+	}*/
 	
 	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
-	public boolean updateStudentById(int id,Student stu) {
-		boolean flag=dao.updateStudentById(id, stu);
-		return flag;
+	public void updateStudent(Student stu) {
+		 this.dao.updateStudent(stu);
+		
 		
 	}
 	
 	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
 	public boolean checkUserLogin(String un, String pwd) {
 		return dao.checkUserLogin(un, pwd);
+	}
+	
+	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
+	public void removeStudent(Integer rollno) {
+		this.dao.deleteStudent(rollno);
+		
+	}
+	
+	@Transactional(isolation=Isolation.SERIALIZABLE,propagation=Propagation.REQUIRED)
+	public Student getStudentByRollno(int rollno) {
+		return this.dao.getStudentByRollno(rollno);
 	}
 
 }

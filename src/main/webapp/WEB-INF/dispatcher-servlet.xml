@@ -50,5 +50,4 @@
 		<bean id="hTemp" class="org.springframework.orm.hibernate4.HibernateTemplate" autowire="constructor"/>
 		<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" autowire="constructor"/>
 
-
 </beans>

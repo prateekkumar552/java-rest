@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateCallback;
@@ -19,7 +20,7 @@ public class StudentDaoImpl implements StudentDao{
 	@Autowired
 	HibernateTemplate temp;
 	
-	
+		
 
 	@Override
 	public List<Student> getAllStudent() {
@@ -37,7 +38,7 @@ public class StudentDaoImpl implements StudentDao{
 		return stulist;
 	}
 
-	@Override
+	/*@Override
 	public List<Student> getStudentById(final int id) {
 		// TODO Auto-generated method stubs
 		
@@ -54,7 +55,7 @@ public class StudentDaoImpl implements StudentDao{
 		});
 		return stulist;
 	}
-
+*/
 	@Override
 	public boolean addStudent(Student stu) {
 		// TODO Auto-generated method stub
@@ -68,7 +69,7 @@ public class StudentDaoImpl implements StudentDao{
 		
 	}
 
-	@Override
+	/*@Override
 	public boolean deleteStudentById(int id) {
 		// TODO Auto-generated method stub
 		Student stu=temp.load(Student.class, id);
@@ -79,24 +80,9 @@ public class StudentDaoImpl implements StudentDao{
 			// TODO: handle exception
 			return false;
 		}
-	}
+	}*/
 
-	@Override
-	public boolean updateStudentById(int id,Student stu) {
-		// TODO Auto-generated method stub
-		Student st=temp.get(Student.class, id);
-		st.setCity(stu.getCity());
-		st.setName(stu.getName());
-		st.setPassword(stu.getPassword());
-		st.setUsername(stu.getUsername());
-		try {
-			temp.saveOrUpdate(st);
-			return true;
-		}catch (Exception e) {
-			// TODO: handle exception
-			return false;
-		}
-	}
+	
 
 	@Override
 	public boolean checkUserLogin(String un, String pwd) {
@@ -108,6 +94,39 @@ public class StudentDaoImpl implements StudentDao{
 		}else {
 			return true;
 		}
+		
+	}
+
+	@Override
+	public void deleteStudent(Integer rollno) {
+		// TODO Auto-generated method stub
+		Student st=(Student)temp.load(Student.class, new Integer(rollno));
+		if(null != st) {
+			temp.delete(st);
+		}
+		/*List<Object[]> listlog=(List<Object[]>) temp.find("delete from Student where id=?", new Object[] {rollno});
+		if(listlog.size() == 0) {
+			return false;
+		}else {
+			return true;
+		}*/
+	}
+
+	@Override
+	public Student getStudentByRollno(int rollno) {
+		// TODO Auto-generated method stub
+		Student st=temp.load(Student.class, new Integer(rollno));
+		
+		return st;
+	}
+
+	@Override
+	public void updateStudent(Student stu) {
+		// TODO Auto-generated method stub
+		
+		String sql="update Student set name="+stu.getName()+",city="+stu.getCity();
+		temp.update(sql);
+		
 		
 	}
 

@@ -39,13 +39,9 @@ public class StudentController {
 		return service.getAllStudents();
 	}
 
-	@RequestMapping(value = "/student/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Student> getStudentById(@PathVariable("id") int id) throws DataNotFoundException{
-		if (id == 0) {
-			return service.getAllStudents();
-		} else {
-			return service.getAllStudentsById(id);
-		}
+	@RequestMapping(value = "/student/get/{rollno}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody void getStudentByRollno(@PathVariable("rollno")Integer rollno) {
+    	this.service.getStudentByRollno(rollno);
 	}
 	
     @RequestMapping(value="/student/addstudent", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -56,15 +52,15 @@ public class StudentController {
 		return new ResponseEntity<Boolean>(flag, header, HttpStatus.CREATED);
 	}
     
-    @RequestMapping(value="/student/deletestudent/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody boolean deleteStudent(@PathVariable("id") int id){
-    	return this.service.deleteStudentById(id);
+    /*@RequestMapping(value="/student/deletestudent/{rollno}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE )
+    public @ResponseBody boolean deleteStudent(@PathVariable("rollno") int rollno){
+    	return service.removeStudent(rollno);
     	
-    }
+    }*/
     
     @RequestMapping(value="/student/updatestudent", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody boolean updateStudent(@RequestBody Student stu,int id) {
-    	return service.updateStudentById(id, stu);
+    public @ResponseBody void updateStudent(@RequestBody Student stu,Integer rollno) {
+    	 this.service.updateStudent(stu);
     }
     
     @ExceptionHandler(DataNotFoundException.class)
@@ -72,5 +68,10 @@ public class StudentController {
 		ErrorMessage error = new ErrorMessage(ex.getMessage(), HttpStatus.PRECONDITION_FAILED.value(), "data not found for the message plz send avalid id");
 		return new ResponseEntity<ErrorMessage>(error, HttpStatus.OK);
 	}
+    
+    @RequestMapping(value="/student/deletestudent/{rollno}", method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE )
+    public @ResponseBody void removeStudent(@PathVariable("rollno")Integer rollno) {
+    	this.service.removeStudent(rollno);
+    }
 
 }

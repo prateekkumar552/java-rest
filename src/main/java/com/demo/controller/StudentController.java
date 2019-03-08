@@ -1,14 +1,18 @@
 package com.demo.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.demo.exception.DataNotFoundException;
 import com.demo.exception.ErrorMessage;
 import com.model.Student;
+import com.service.DownloadService;
 import com.service.StudentService;
 
 @RestController
@@ -28,6 +33,9 @@ public class StudentController {
 
 	@Autowired
 	StudentService service;
+	
+	@Autowired
+	DownloadService downloadService;
 	
 	@RequestMapping(value="/student/verifylogin/{username}/{password}", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody boolean checkUserLogin(@PathVariable("username")String un,@PathVariable("password")String pwd) {
@@ -72,6 +80,12 @@ public class StudentController {
     @RequestMapping(value="/student/deletestudent/{rollno}", method=RequestMethod.DELETE, produces=MediaType.APPLICATION_JSON_VALUE )
     public @ResponseBody void removeStudent(@PathVariable("rollno")Integer rollno) {
     	this.service.removeStudent(rollno);
+    }
+    
+    @RequestMapping(value="/student/download", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void getXLS(HttpServletResponse res, Model model) throws IOException {
+    	
+    	downloadService.downloadXLS(res);
     }
 
 }
